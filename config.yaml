@@ -1,0 +1,14 @@
+additionalProperties:
+  allowUnicodeIdentifiers: false
+  disallowAdditionalPropertiesIfNotPresent: true
+  ensureUniqueParams: true
+  enumUnknownDefaultCase: false
+  hideGenerationTimestamp: true
+  invokerPackage: SmartCat
+  legacyDiscriminatorBehavior: false
+  packageName: SmartCat
+  prependFormOrBodyParameters: true
+  sortModelPropertiesByRequiredFlag: true
+  sortParamsByRequiredFlag: true
+  variableNamingConvention: camelCase
+  srcBasePath: src
