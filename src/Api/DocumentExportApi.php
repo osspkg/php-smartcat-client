@@ -494,11 +494,12 @@ class DocumentExportApi
      *
      * @throws \SmartCat\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return void
+     * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function apiIntegrationV1DocumentExportTaskIdGet($taskId, string $contentType = self::contentTypes['apiIntegrationV1DocumentExportTaskIdGet'][0])
     {
-        $this->apiIntegrationV1DocumentExportTaskIdGetWithHttpInfo($taskId, $contentType);
+        //TODO: метод по доке неверное генерируеться
+        return $this->apiIntegrationV1DocumentExportTaskIdGetWithHttpInfo($taskId, $contentType);
     }
 
     /**
@@ -511,7 +512,7 @@ class DocumentExportApi
      *
      * @throws \SmartCat\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function apiIntegrationV1DocumentExportTaskIdGetWithHttpInfo($taskId, string $contentType = self::contentTypes['apiIntegrationV1DocumentExportTaskIdGet'][0])
     {
@@ -551,8 +552,8 @@ class DocumentExportApi
                     (string) $response->getBody()
                 );
             }
-
-            return [null, $statusCode, $response->getHeaders()];
+            //TODO: метод по доке неверное генерируеться
+            return [(string) $response->getBody(), $statusCode, $response->getHeaders()];
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
