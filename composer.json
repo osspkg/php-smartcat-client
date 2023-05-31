@@ -1,6 +1,6 @@
 {
-  "name": "osspkg/php-smartcat-cli",
-  "description": "PHP client for SmartCAT API https://smartcat.ai/api/methods/",
+  "name": "osspkg/php-smartcat-client",
+  "description": "PHP client for SmartCAT API (unofficial)",
   "version": "1.0.0",
   "license": "MIT",
   "keywords": [
@@ -8,9 +8,9 @@
     "smartcat",
     "api"
   ],
-  "homepage": "https://github.com/osspkg/php-smartcat-cli",
+  "homepage": "https://github.com/osspkg/php-smartcat-client",
   "support": {
-    "issues": "https://github.com/osspkg/php-smartcat-cli/issues"
+    "issues": "https://github.com/osspkg/php-smartcat-client/issues"
   },
   "authors": [
     {

@@ -16,7 +16,6 @@ clean:
 
 copy:
 	rsync -r --progress ./tmp/src/ ./src/
-	rsync -r --progress ./tmp/docs/ ./docs/
 
 
 gen: build copy clean

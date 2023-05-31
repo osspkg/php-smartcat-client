@@ -1,4 +1,4 @@
-# php-smartcat-cli
+# osspkg/php-smartcat-client  (unofficial)
 
 PHP client for [SmartCAT API](https://developers.smartcat.com/getting-started/#getting-started)
 
@@ -19,7 +19,7 @@ To install the bindings via [Composer](https://getcomposer.org/), add the follow
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/osspkg/php-smartcat-cli.git"
+      "url": "https://github.com/osspkg/php-smartcat-client.git"
     }
   ],
   "require": {
