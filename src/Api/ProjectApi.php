@@ -37,6 +37,7 @@ use GuzzleHttp\RequestOptions;
 use SmartCat\ApiException;
 use SmartCat\Configuration;
 use SmartCat\HeaderSelector;
+use SmartCat\Model\UploadFileModel;
 use SmartCat\ObjectSerializer;
 
 /**
@@ -1234,56 +1235,37 @@ class ProjectApi
             );
         }
 
-
+        //TODO: метод по доке неверное генерируеться
         $resourcePath = '/api/integration/v1/project/create';
-        $formParams = [];
+        $formParams = $modelWithFilesCreateProjectModel->getFiles();
         $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
 
-
-
+        $multipartContents = [];
+        $multipartContents[] = [
+            'name' => 'model',
+            'headers' => ['Content-Type' => 'application/json'],
+            'contents' => \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($modelWithFilesCreateProjectModel->getValue()))
+        ];
+        /**
+         * @var int $formParamIndex
+         * @var UploadFileModel $formParamValue
+         */
+        foreach ($formParams as $formParamIndex => $formParamValue) {
+            $multipartContents[] = [
+                'name' => sprintf('file_%d', $formParamIndex),
+                'headers' => ['Content-Type' => 'application/octet-stream'],
+                'filename' => $formParamValue->getFullName(),
+                'contents' => $formParamValue->getFileContent(),
+            ];
+        }
+        $httpBody = new MultipartStream($multipartContents);
 
 
         $headers = $this->headerSelector->selectHeaders(
             ['text/plain', 'application/json', 'text/json', ],
-            $contentType,
-            $multipart
+            'multipart/form-data; boundary="' . $httpBody->getBoundary() . '"',
+            false
         );
-
-        // for model (json/xml)
-        if (isset($modelWithFilesCreateProjectModel)) {
-            if (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the body
-                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($modelWithFilesCreateProjectModel));
-            } else {
-                $httpBody = $modelWithFilesCreateProjectModel;
-            }
-        } elseif (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
-
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1292,7 +1274,6 @@ class ProjectApi
 
         $headers = array_merge(
             $defaultHeaders,
-            $headerParams,
             $headers
         );
 

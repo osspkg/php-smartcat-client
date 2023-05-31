@@ -498,9 +498,10 @@ class ObjectSerializer
 
 
         if (method_exists($class, 'getAllowableEnumValues')) {
-            if (!in_array($data, $class::getAllowableEnumValues(), true)) {
+            //TODO: в доке статусы с большой буквы а по апи приходят с маленькой
+            if (\preg_grep("/^$data$/i", $class::getAllowableEnumValues()) === false){
                 $imploded = implode("', '", $class::getAllowableEnumValues());
-                throw new \InvalidArgumentException("Invalid value for enum '$class', must be one of: '$imploded'");
+                throw new \InvalidArgumentException("Invalid value for enum '$class', must be one of: '$imploded', got '$data'");
             }
             return $data;
         } else {
